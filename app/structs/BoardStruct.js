@@ -1,21 +1,13 @@
-import { Dimensions } from 'react-native';
-
-const Width = Dimensions.get('window').width;
-
 class BoardStruct {
   rows: null;
   cols: null;
-  tileComponent: null;
-  tileSize: null;
 
   board: null;
   indices: null;
 
-  constructor(rows, cols, tileComponent) {
+  constructor(rows, cols) {
     this.rows = rows;
     this.cols = cols;
-    this.tileComponent = tileComponent;
-    this.tileSize = Width * 0.8 / cols - 4;
 
     this.board = [];
     this.indices = [];
@@ -91,10 +83,6 @@ class BoardStruct {
 
   getBoard() {
     return { board: this.board, indices: this.indices };
-  }
-
-  getTileSize() {
-    return this.tileSize;
   }
 }
 

@@ -12,7 +12,7 @@ import Modal from '../molecules/Modal';
 
 const routeMap = {
   menu: <Menu />,
-  board: <Board />,
+  board: <Board columns={4} rows={8} />,
   settings: <Settings />,
 };
 
