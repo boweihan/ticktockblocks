@@ -1,3 +1,3 @@
 export default {
-  name: 'NewName',
+  name: 'Tick Tock Blocks',
 };
