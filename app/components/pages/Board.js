@@ -14,16 +14,24 @@ import Nav from '../molecules/Nav';
 class Board extends React.Component {
   state = {
     board: [],
+    interval: null,
   };
-  componentDidMount() {
-    setInterval(() => {
-      const state = { ...this.state };
-      state.board.push(
-        <TileRow numTiles={4} key={`${new Date().getTime()}_tilerow`} />,
-      );
-      this.setState(state);
-    }, 10000);
+  componentWillMount() {
+    this.setState({
+      interval: setInterval(() => {
+        const state = { ...this.state };
+        state.board.push(
+          <TileRow numTiles={4} key={`${new Date().getTime()}_tilerow`} />,
+        );
+        this.setState(state);
+      }, 10000),
+    });
   }
+
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
+
   render() {
     return (
       <FadeInView style={styles.game}>

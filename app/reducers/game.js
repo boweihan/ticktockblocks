@@ -2,7 +2,7 @@ import createReducer from '../lib/createReducer';
 import * as types from '../actions/types';
 
 const defaultGame = {
-  board: {},
+  board: [],
   level: 1,
 };
 
