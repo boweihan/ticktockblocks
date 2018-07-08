@@ -34,7 +34,7 @@ class Board extends React.Component {
     this.setState({
       interval: setInterval(() => {
         this.addRow();
-      }, 1000),
+      }, 5000),
     });
   }
 
@@ -66,7 +66,7 @@ class Board extends React.Component {
             style={{
               ...styles.board,
               height: tileSize * this.props.rows + 4 * this.props.rows + 14, // 4px for each block, 14 for border
-              width: width + this.props.columns * 4 + 4 + 10, // 4px for each block, 4px for the row, 10 for border
+              width: width + this.props.columns * 4 + 14, // 4px for each block, 4px for the row, 10 for border
             }}
           >
             {board.map((row, key) => {

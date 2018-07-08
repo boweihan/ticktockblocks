@@ -20,15 +20,37 @@ class BoardStruct {
   addRow() {
     // need unique index per row for react rendering
     const index = new Date().getTime().toString();
+    const row = new Array(this.cols).fill(null);
 
-    const row = [];
+    let newRow = false;
+
     for (let i = 0; i < this.cols; i += 1) {
-      row.push({ key: i, index });
+      const nextAvailableRowIndex = this.getNextAvailableRow(i);
+      if (nextAvailableRowIndex > -1) {
+        this.board[nextAvailableRowIndex][i] = {
+          key: i,
+          index: this.indices[nextAvailableRowIndex],
+        };
+      } else {
+        row[i] = { key: i, index };
+        newRow = true;
+      }
     }
 
-    this.indices.push(index);
-    this.board.push(row);
-    this.rows += 1;
+    if (newRow) {
+      this.indices.unshift(index);
+      this.board.unshift(row);
+      this.rows += 1;
+    }
+  }
+
+  getNextAvailableRow(colIndex) {
+    for (let i = this.board.length - 1; i >= 0; i -= 1) {
+      if (!this.board[i][colIndex]) {
+        return i;
+      }
+    }
+    return -1;
   }
 
   // remove block, shift blocks down if needed and remove empty top row

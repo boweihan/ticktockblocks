@@ -13,14 +13,28 @@ const getTileStyle = tileSize => {
   };
 };
 
-function Tile(props) {
-  return (
-    <Animatable.View
-      animation="fadeIn"
-      style={getTileStyle(props.tileSize)}
-      onStartShouldSetResponder={props.onClick}
-    />
-  );
+class Tile extends React.PureComponent {
+  timer: null;
+
+  handleStartPress = onClick => {
+    this.timer = setTimeout(() => onClick(), 500);
+  };
+
+  handleEndPress = () => {
+    clearTimeout(this.timer);
+  };
+
+  render() {
+    return (
+      <Animatable.View
+        animation="bounceInDown"
+        duration={1000}
+        style={getTileStyle(this.props.tileSize)}
+        onTouchStart={() => this.handleStartPress(this.props.onClick)}
+        onTouchEnd={this.handleEndPress}
+      />
+    );
+  }
 }
 
 Tile.propTypes = {
