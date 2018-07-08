@@ -1,10 +1,10 @@
 import React from 'react';
-import { TouchableHighlight, Text, View } from 'react-native';
+import { TouchableHighlight, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import * as Animatable from 'react-native-animatable';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
+import { Ionicons } from '@expo/vector-icons'; // eslint-disable-line
 import Colors from '../../constants/colors';
 import styles from './styles/NavStyles';
 
@@ -13,26 +13,52 @@ class Nav extends React.PureComponent {
     return (
       <View style={styles.nav}>
         <TouchableHighlight
-          underlayColor={Colors.white}
+          underlayColor={Colors.black}
           activeOpacity={0.5}
           style={styles.navButton}
           onPress={() => this.props.setRoute('menu')}
         >
-          <View style={styles.menuContainer}>
-            <View style={styles.backToMenu}>
-              <Text style={styles.menuText}>MENU</Text>
-            </View>
-          </View>
+          <Ionicons style={styles.iconText} name="md-arrow-round-back" />
         </TouchableHighlight>
-        <View style={styles.settingsElement}>
-          <View style={styles.menuContainer}>
-            <Animatable.View animation="bounceIn" style={styles.settingsBox}>
-              <Text style={[styles.menuText, styles.settingsText]}>
-                {this.props.pageTitle}
-              </Text>
-            </Animatable.View>
-          </View>
+        <View style={styles.navLogo}>
+          <View
+            style={{
+              ...styles.navLogoElem,
+              backgroundColor: Colors.lightGreen,
+            }}
+          />
+          <View
+            style={{ ...styles.navLogoElem, backgroundColor: Colors.lightRed }}
+          />
+          <View
+            style={{
+              ...styles.navLogoElem,
+              backgroundColor: Colors.lightBrown,
+            }}
+          />
+          <View
+            style={{ ...styles.navLogoElem, backgroundColor: Colors.lightBlue }}
+          />
+          <View
+            style={{
+              ...styles.navLogoElem,
+              backgroundColor: Colors.lightOrange,
+            }}
+          />
+          <View
+            style={{
+              ...styles.navLogoElem,
+              backgroundColor: Colors.lightGray,
+            }}
+          />
         </View>
+        <TouchableHighlight
+          activeOpacity={0.5}
+          style={styles.navButton}
+          onPress={this.props.resetGame}
+        >
+          <Ionicons style={styles.iconText} name="md-refresh" />
+        </TouchableHighlight>
       </View>
     );
   }
@@ -40,18 +66,11 @@ class Nav extends React.PureComponent {
 
 Nav.propTypes = {
   setRoute: PropTypes.func.isRequired,
-  pageTitle: PropTypes.string.isRequired,
+  resetGame: PropTypes.func.isRequired,
 };
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(ActionCreators, dispatch);
 }
 
-function mapStateToProps(state) {
-  return {
-    triColorMode: state.triColorMode,
-    boardStateCache: state.boardStateCache,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Nav);
+export default connect(undefined, mapDispatchToProps)(Nav);

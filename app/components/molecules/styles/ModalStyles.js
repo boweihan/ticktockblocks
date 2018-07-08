@@ -2,7 +2,7 @@ import Colors from '../../../constants/colors';
 
 export default {
   modal: {
-    backgroundColor: Colors.lightgray,
+    backgroundColor: Colors.lightGray,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
@@ -19,6 +19,6 @@ export default {
     textAlign: 'center',
     fontSize: 60,
     marginTop: 20,
-    color: Colors.lightgray,
+    color: Colors.lightGray,
   },
 };

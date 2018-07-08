@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
+import Colors from '../../constants/colors';
 import styles from './styles/MenuStyles';
 
 // components
@@ -18,22 +19,52 @@ class Menu extends React.Component {
           <Text style={styles.titleText}>Tick Tock</Text>
         </View>
         <View style={styles.title}>
-          <View style={styles.blockContainer}>
+          <View
+            style={{
+              ...styles.blockContainer,
+              backgroundColor: Colors.lightGreen,
+            }}
+          >
             <Text style={styles.block}>B</Text>
           </View>
-          <View style={styles.blockContainer}>
+          <View
+            style={{
+              ...styles.blockContainer,
+              backgroundColor: Colors.lightRed,
+            }}
+          >
             <Text style={styles.block}>L</Text>
           </View>
-          <View style={styles.blockContainer}>
+          <View
+            style={{
+              ...styles.blockContainer,
+              backgroundColor: Colors.lightBrown,
+            }}
+          >
             <Text style={styles.block}>O</Text>
           </View>
-          <View style={styles.blockContainer}>
+          <View
+            style={{
+              ...styles.blockContainer,
+              backgroundColor: Colors.lightBlue,
+            }}
+          >
             <Text style={styles.block}>C</Text>
           </View>
-          <View style={styles.blockContainer}>
+          <View
+            style={{
+              ...styles.blockContainer,
+              backgroundColor: Colors.lightOrange,
+            }}
+          >
             <Text style={styles.block}>K</Text>
           </View>
-          <View style={styles.blockContainer}>
+          <View
+            style={{
+              ...styles.blockContainer,
+              backgroundColor: Colors.lightGray,
+            }}
+          >
             <Text style={styles.block}>S</Text>
           </View>
         </View>

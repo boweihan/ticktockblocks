@@ -5,7 +5,7 @@ export default {
   lightRed: '#d8695a',
   darkRed: '#BE3E2C',
   red: 'red',
-  lightgray: 'lightgray',
+  lightGray: 'lightgray',
   lighterGray: '#d6d7da',
   darkGray: '#4d4d4d',
   gray: 'gray',
@@ -13,4 +13,6 @@ export default {
   green: '#7AAF29',
   lightGreen: '#649122',
   black: '#1a1a1a',
+  lightBlue: '#8ac7db',
+  lightOrange: '#ffc966',
 };
