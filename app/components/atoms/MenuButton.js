@@ -15,10 +15,12 @@ class MenuButton extends React.PureComponent {
         <TouchableHighlight
           underlayColor={this.props.underlayColor}
           activeOpacity={0.5}
-          style={styles.button}
+          style={{ ...styles.button }}
           onPress={this.props.onPress}
         >
-          <Text style={styles.text}>{this.props.buttonText}</Text>
+          <Text style={{ ...styles.text, ...this.props.style }}>
+            {this.props.buttonText}
+          </Text>
         </TouchableHighlight>
       </Animatable.View>
     );
@@ -29,10 +31,12 @@ MenuButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   underlayColor: PropTypes.string,
   buttonText: PropTypes.string.isRequired,
+  style: PropTypes.object,
 };
 
 MenuButton.defaultProps = {
   underlayColor: 'gray',
+  style: {},
 };
 
 export default MenuButton;

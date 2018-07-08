@@ -7,16 +7,12 @@ import styles from './styles/GameMasterStyles';
 import FadeInView from '../wrappers/FadeInView';
 import Menu from './Menu';
 import Board from './Board';
-import Levels from './Levels';
 import Settings from './Settings';
-import Instructions from './Instructions';
 import Modal from '../molecules/Modal';
 
 const routeMap = {
   menu: <Menu />,
   board: <Board />,
-  levels: <Levels />,
-  instructions: <Instructions />,
   settings: <Settings />,
 };
 

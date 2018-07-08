@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../../actions';
-import appConfig from '../../constants/appConfig';
 import styles from './styles/MenuStyles';
 
 // components
@@ -16,23 +15,38 @@ class Menu extends React.Component {
     return (
       <FadeInView style={styles.menu}>
         <View style={styles.title}>
-          <Text style={styles.titleText}>{appConfig.name}</Text>
+          <Text style={styles.titleText}>Tick Tock</Text>
+        </View>
+        <View style={styles.title}>
+          <View style={styles.blockContainer}>
+            <Text style={styles.block}>B</Text>
+          </View>
+          <View style={styles.blockContainer}>
+            <Text style={styles.block}>L</Text>
+          </View>
+          <View style={styles.blockContainer}>
+            <Text style={styles.block}>O</Text>
+          </View>
+          <View style={styles.blockContainer}>
+            <Text style={styles.block}>C</Text>
+          </View>
+          <View style={styles.blockContainer}>
+            <Text style={styles.block}>K</Text>
+          </View>
+          <View style={styles.blockContainer}>
+            <Text style={styles.block}>S</Text>
+          </View>
         </View>
         <MenuButton
           onPress={() => this.props.setRoute('board')}
-          buttonText="BACK TO BOARD"
-        />
-        <MenuButton
-          onPress={() => this.props.setRoute('levels')}
-          buttonText="LEVELS"
-        />
-        <MenuButton
-          onPress={() => this.props.setRoute('instructions')}
-          buttonText="HOW TO PLAY"
+          buttonText="Let's Go!"
         />
         <MenuButton
           onPress={() => this.props.setRoute('settings')}
-          buttonText="SETTINGS"
+          buttonText="Settings"
+          style={{
+            fontSize: 15,
+          }}
         />
       </FadeInView>
     );

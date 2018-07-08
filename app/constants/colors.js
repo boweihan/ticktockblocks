@@ -7,8 +7,10 @@ export default {
   red: 'red',
   lightgray: 'lightgray',
   lighterGray: '#d6d7da',
+  darkGray: '#4d4d4d',
   gray: 'gray',
   orange: '#e68a00',
   green: '#7AAF29',
   lightGreen: '#649122',
+  black: '#1a1a1a',
 };
