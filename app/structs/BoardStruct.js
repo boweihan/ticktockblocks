@@ -1,70 +1,96 @@
-import React from 'react';
 import { Dimensions } from 'react-native';
-import Colors from '../constants/colors';
 
 const Width = Dimensions.get('window').width;
-
-const getTileStyle = tileSize => {
-  return {
-    width: tileSize,
-    height: tileSize,
-    backgroundColor: Colors.lightBrown,
-    margin: 2,
-    borderRadius: 5,
-  };
-};
 
 class BoardStruct {
   rows: null;
   cols: null;
   tileComponent: null;
   tileSize: null;
+
   board: null;
-  keys: null;
+  indices: null;
 
   constructor(rows, cols, tileComponent) {
     this.rows = rows;
     this.cols = cols;
     this.tileComponent = tileComponent;
     this.tileSize = Width * 0.8 / cols - 4;
+
     this.board = [];
-    this.keys = [];
+    this.indices = [];
+
     for (let i = 0; i < rows; i += 1) {
       this.addRow();
     }
   }
 
   addRow() {
+    // need unique index per row for react rendering
+    const index = new Date().getTime().toString();
+
     const row = [];
     for (let i = 0; i < this.cols; i += 1) {
-      row.push(
-        <this.tileComponent key={i} style={getTileStyle(this.tileSize)} />,
-      );
+      row.push({ key: i, index });
     }
+
+    this.indices.push(index);
     this.board.push(row);
-    this.keys.push(new Date().getTime());
     this.rows += 1;
   }
 
-  removeBlock(rowIndex, colIndex) {
-    this.shiftBlockDown(rowIndex + 1, colIndex);
+  // remove block, shift blocks down if needed and remove empty top row
+  removeBlock(colIndex, index) {
+    const rowIndex = this.indices.indexOf(index);
+    this.board[rowIndex][colIndex] = null; // remove the block
+    this.shiftBlockDown(rowIndex - 1, colIndex); // display is reversed direction of row indices, -1 is one up
+    this.removeTopRowIfNeeded();
   }
 
+  // shift blocks down to fill in removed block
   shiftBlockDown(rowIndex, colIndex) {
-    if (rowIndex <= this.board.length) {
-      if (colIndex <= this.board[rowIndex].length) {
-        this.board[rowIndex - 1][colIndex] = this.board[rowIndex][colIndex];
-        this.board[rowIndex][colIndex] = null;
+    if (rowIndex >= 0) {
+      if (colIndex < this.board[rowIndex].length) {
+        const currentCell = this.board[rowIndex][colIndex];
+
+        if (currentCell) {
+          // move cell down one row visually
+          this.board[rowIndex + 1][colIndex] = this.getUpdatedCell(
+            this.board[rowIndex][colIndex],
+            rowIndex + 1,
+          );
+          // keep checking if we need to shift
+          this.board[rowIndex][colIndex] = null; // remove the block
+          this.shiftBlockDown(rowIndex - 1, colIndex);
+        }
       }
     }
   }
 
-  getBoard() {
-    return { board: this.board, keys: this.keys };
+  // update cell index to correspond with correct indices entry
+  getUpdatedCell(cell, newIndex) {
+    const newCell = { ...cell };
+    newCell.index = this.indices[newIndex];
+    return newCell;
   }
 
-  getBoardReverse() {
-    return { board: this.board.reverse(), keys: this.keys.reverse() };
+  removeTopRowIfNeeded() {
+    const topRow = this.board[0];
+    let empty = true;
+    for (let i = 0; i < topRow.length; i += 1) {
+      if (topRow[i]) {
+        empty = false;
+        break;
+      }
+    }
+    if (empty) {
+      this.board.shift();
+      this.indices.shift();
+    }
+  }
+
+  getBoard() {
+    return { board: this.board, indices: this.indices };
   }
 
   getTileSize() {

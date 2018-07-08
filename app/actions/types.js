@@ -1,5 +1,4 @@
 // BOARD
-export const UPDATE_BOARD = 'ns/UPDATE_BOARD';
 export const LEVEL_UP = 'ns/LEVEL_UP';
 
 // ROUTES

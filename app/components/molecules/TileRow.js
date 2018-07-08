@@ -6,7 +6,7 @@ import styles from './styles/TileRowStyles';
 function TileRow(props) {
   return (
     <Animatable.View
-      animation="bounceInDown"
+      animation="fadeIn"
       style={{ ...styles.tileRow, height: props.tileSize }}
     >
       {props.children}
