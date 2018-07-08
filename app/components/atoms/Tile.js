@@ -5,17 +5,14 @@ import * as Animatable from 'react-native-animatable';
 
 function Tile(props) {
   return (
-    <Animatable.View animation="fadeIn">
-      <Animated.View
-        style={props.style}
-        onStartShouldSetResponder={props.onClick}
-      />
+    <Animatable.View animation="fadeIn" style={props.style}>
+      <Animated.View onStartShouldSetResponder={props.onClick} />
     </Animatable.View>
   );
 }
 
 Tile.propTypes = {
-  style: PropTypes.array.isRequired,
+  style: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 

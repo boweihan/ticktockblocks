@@ -13,18 +13,6 @@ import FadeInView from '../wrappers/FadeInView';
 import Nav from '../molecules/Nav';
 
 class Settings extends React.Component {
-  resetGame() {
-    Alert.alert(
-      'Clear Progress?',
-      'Are you sure you want to do that? This will clear all your application data.',
-      [
-        { text: 'Cancel', onPress: () => {}, style: 'cancel' },
-        { text: 'Confirm', onPress: () => this.props.resetGame() },
-      ],
-      { cancelable: false },
-    );
-  }
-
   render() {
     return (
       <FadeInView style={styles.settings}>
@@ -34,7 +22,6 @@ class Settings extends React.Component {
             underlayColor={Colors.gray}
             activeOpacity={0.5}
             style={styles.settingsButton}
-            onPress={this.resetGame}
           >
             <Text style={styles.progressText}>RESET GAME</Text>
           </TouchableHighlight>

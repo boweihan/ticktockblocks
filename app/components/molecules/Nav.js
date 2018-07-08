@@ -52,13 +52,17 @@ class Nav extends React.PureComponent {
             }}
           />
         </View>
-        <TouchableHighlight
-          activeOpacity={0.5}
-          style={styles.navButton}
-          onPress={this.props.resetGame}
-        >
-          <Ionicons style={styles.iconText} name="md-refresh" />
-        </TouchableHighlight>
+        {this.props.hideRefresh ? (
+          <View style={styles.navButton} />
+        ) : (
+          <TouchableHighlight
+            activeOpacity={0.5}
+            style={styles.navButton}
+            onPress={this.props.resetGame}
+          >
+            <Ionicons style={styles.iconText} name="md-refresh" />
+          </TouchableHighlight>
+        )}
       </View>
     );
   }
@@ -67,6 +71,11 @@ class Nav extends React.PureComponent {
 Nav.propTypes = {
   setRoute: PropTypes.func.isRequired,
   resetGame: PropTypes.func.isRequired,
+  hideRefresh: PropTypes.bool,
+};
+
+Nav.defaultProps = {
+  hideRefresh: true,
 };
 
 function mapDispatchToProps(dispatch) {

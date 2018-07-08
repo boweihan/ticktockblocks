@@ -8,19 +8,27 @@ import styles from './styles/BoardStyles';
 
 // components
 import FadeInView from '../wrappers/FadeInView';
-import Tile from '../atoms/Tile';
+import TileRow from '../molecules/TileRow';
 import Nav from '../molecules/Nav';
 
 class Board extends React.Component {
+  state = {
+    board: [],
+  };
+  componentDidMount() {
+    setInterval(() => {
+      const state = { ...this.state };
+      state.board.push(
+        <TileRow numTiles={4} key={`${new Date().getTime()}_tilerow`} />,
+      );
+      this.setState(state);
+    }, 10000);
+  }
   render() {
     return (
       <FadeInView style={styles.game}>
-        <Nav pageTitle="BOARD" />
-        <View style={styles.board}>
-          {/* {this.state.board.tiles.map(tile => (
-            <Tile key={tile.key} style={{}} onClick={() => {}} />
-          ))} */}
-        </View>
+        <Nav pageTitle="BOARD" hideRefresh={false} />
+        <View style={styles.board}>{this.state.board.reverse()}</View>
       </FadeInView>
     );
   }
