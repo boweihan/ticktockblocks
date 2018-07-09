@@ -34,7 +34,7 @@ class Board extends React.Component {
     this.setState({
       interval: setInterval(() => {
         this.addRow();
-      }, 5000),
+      }, 1000),
     });
   }
 
@@ -48,13 +48,20 @@ class Board extends React.Component {
     this.setState(newState);
   };
 
-  removeBlock = (key, index) => {
+  removeBlock = (key, index, type) => {
     const newState = { ...this.state };
-    newState.boardStruct.removeBlock(key, index);
+    newState.boardStruct.removeBlock(key, index, type);
     this.setState(newState);
   };
 
+  checkLose = () => {
+    if (this.state.boardStruct.getRows() > this.props.rows) {
+      this.props.setRoute('menu');
+    }
+  };
+
   render() {
+    this.checkLose();
     const that = this;
     const { board, indices } = this.state.boardStruct.getBoard();
     const { tileSize, width } = this.state;
@@ -75,9 +82,12 @@ class Board extends React.Component {
                   {row.map((tile, tileIndex) => {
                     return tile ? (
                       <Tile
+                        type={tile.type}
                         key={`${tile.index}_${tile.key}`}
                         tileSize={tileSize}
-                        onClick={() => that.removeBlock(tile.key, tile.index)}
+                        onClick={type =>
+                          that.removeBlock(tile.key, tile.index, type)
+                        }
                       />
                     ) : (
                       <EmptyTile key={tileIndex} tileSize={tileSize} /> // eslint-disable-line
@@ -94,6 +104,7 @@ class Board extends React.Component {
 }
 
 Board.propTypes = {
+  setRoute: PropTypes.func.isRequired,
   rows: PropTypes.number.isRequired,
   columns: PropTypes.number.isRequired,
 };
