@@ -68,6 +68,8 @@ class BoardStruct {
       case 'laser':
         this.removeLaser(colIndex, index);
         break;
+      case 'dud':
+        break;
       default:
         break;
     }

@@ -58,7 +58,7 @@ class Nav extends React.PureComponent {
           <TouchableHighlight
             activeOpacity={0.5}
             style={styles.navButton}
-            onPress={this.props.resetGame}
+            onPress={this.props.resetBoard}
           >
             <Ionicons style={styles.iconText} name="md-refresh" />
           </TouchableHighlight>
@@ -70,11 +70,12 @@ class Nav extends React.PureComponent {
 
 Nav.propTypes = {
   setRoute: PropTypes.func.isRequired,
-  resetGame: PropTypes.func.isRequired,
+  resetBoard: PropTypes.func,
   hideRefresh: PropTypes.bool,
 };
 
 Nav.defaultProps = {
+  resetBoard: null,
   hideRefresh: true,
 };
 

@@ -34,13 +34,27 @@ class Board extends React.Component {
     this.setState({
       interval: setInterval(() => {
         this.addRow();
-      }, 1000),
+        this.checkLose();
+      }, 5000),
     });
   }
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
   }
+
+  resetBoard = () => {
+    clearInterval(this.state.interval);
+    const board = new BoardStruct(0, this.props.columns, Tile);
+    board.addRow();
+    this.setState({
+      boardStruct: board,
+      interval: setInterval(() => {
+        this.addRow();
+        this.checkLose();
+      }, 5000),
+    });
+  };
 
   addRow = () => {
     const newState = { ...this.state };
@@ -61,13 +75,16 @@ class Board extends React.Component {
   };
 
   render() {
-    this.checkLose();
     const that = this;
     const { board, indices } = this.state.boardStruct.getBoard();
     const { tileSize, width } = this.state;
     return (
       <FadeInView style={styles.game}>
-        <Nav pageTitle="BOARD" hideRefresh={false} />
+        <Nav
+          pageTitle="BOARD"
+          hideRefresh={false}
+          resetBoard={this.resetBoard}
+        />
         <View style={styles.boardContainer}>
           <View
             style={{
