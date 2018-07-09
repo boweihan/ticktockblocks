@@ -5,8 +5,8 @@
     "name": "Tick Tock Blocks",
     "description": "",
     "icon": "./grid.png",
-    "version": "3.1.0",
-    "slug": "Tick Tock Blocks",
+    "version": "1.0.0",
+    "slug": "ticktockblocks",
     "ios": {
       "bundleIdentifier": "tech.bhan.ticktockblocks"
     },
