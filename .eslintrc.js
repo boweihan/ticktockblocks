@@ -11,5 +11,6 @@ module.exports = {
     'react/prefer-stateless-function': 0,
     indent: 0,
     'arrow-body-style': 0,
+    'no-lonely-if': 0,
   },
 };

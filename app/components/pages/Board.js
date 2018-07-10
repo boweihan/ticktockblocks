@@ -18,7 +18,7 @@ const Width = Dimensions.get('window').width;
 
 class Board extends React.Component {
   constructor(props) {
-    const width = Width * 0.1 * props.columns + 10;
+    const width = Width * 0.15 * props.columns + 10;
     const tileSize = width / props.columns;
     super();
     this.state = {
@@ -62,9 +62,20 @@ class Board extends React.Component {
     this.setState(newState);
   };
 
-  removeBlock = (key, index, type) => {
+  removeBlock = ({ key, index, type }) => {
     const newState = { ...this.state };
     newState.boardStruct.removeBlock(key, index, type);
+    this.setState(newState);
+  };
+
+  removeBlockWithSwipe = (tile, direction) => {
+    const newState = { ...this.state };
+    newState.boardStruct.removeBlockWithSwipe(
+      tile.key,
+      tile.index,
+      tile.type,
+      direction,
+    );
     this.setState(newState);
   };
 
@@ -102,8 +113,10 @@ class Board extends React.Component {
                         type={tile.type}
                         key={`${tile.index}_${tile.key}`}
                         tileSize={tileSize}
-                        onClick={type =>
-                          that.removeBlock(tile.key, tile.index, type)
+                        number={tile.number}
+                        onClick={() => that.removeBlock(tile)}
+                        onSwipe={direction =>
+                          that.removeBlockWithSwipe(tile, direction)
                         }
                       />
                     ) : (

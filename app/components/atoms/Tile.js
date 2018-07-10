@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, Text, PanResponder, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 const PRESS_LENGTH = 1000;
@@ -19,22 +19,64 @@ const getTileStyle = (tileSize, type) => {
 };
 
 class Tile extends React.PureComponent {
-  state = {
-    animation: new Animated.Value(0),
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      pan: new Animated.ValueXY(),
+    };
+    this.panResponder = PanResponder.create({
+      // Ask to be the responder:
+      onStartShouldSetPanResponder: (evt, gestureState) => true,
+      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onMoveShouldSetPanResponder: (evt, gestureState) => true,
+      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+      onPanResponderGrant: (evt, gestureState) => {
+        // The gesture has started. Show visual feedback so the user knows
+        // what is happening!
+        // gestureState.d{x,y} will be set to zero now
+      },
+      onPanResponderMove: (evt, gestureState) => {
+        // The most recent move distance is gestureState.move{X,Y}
+        // The accumulated gesture distance since becoming responder is
+        // gestureState.d{x,y}
+      },
+      onPanResponderTerminationRequest: (evt, gestureState) => true,
+      onPanResponderRelease: (evt, gestureState) => {
+        // The user has released all touches while this view is the
+        // responder. This typically means a gesture has succeeded
+        const { dy, dx } = gestureState;
+        const minSwipeLength = 30;
+        let direction;
+        if (Math.abs(dy) > Math.abs(dx)) {
+          if (dy > minSwipeLength) {
+            direction = 'down';
+          } else if (dy < -1 * minSwipeLength) {
+            direction = 'up';
+          }
+        } else {
+          if (dx > minSwipeLength) {
+            direction = 'right';
+          } else if (dx < -1 * minSwipeLength) {
+            direction = 'left';
+          }
+        }
+        if (direction) {
+          this.props.onSwipe(direction);
+        }
+      },
+      onPanResponderTerminate: (evt, gestureState) => {
+        // Another component has become the responder, so this gesture
+        // should be cancelled
+      },
+      onShouldBlockNativeResponder: (evt, gestureState) => {
+        // Returns whether this component should block native components from becoming the JS
+        // responder. Returns true by default. Is currently only supported on android.
+        return true;
+      },
+    });
+  }
 
-  timer: null;
-
-  handleStartPress = onClick => {
-    this.timer = setTimeout(() => onClick(this.props.type), PRESS_LENGTH);
-    this.runAnimation();
-  };
-
-  handleEndPress = () => {
-    this.state.animation.setValue(0);
-    Animated.timing(this.state.animation).stop();
-    clearTimeout(this.timer);
-  };
+  panResponder: null;
 
   runAnimation() {
     Animated.timing(this.state.animation, {
@@ -47,22 +89,33 @@ class Tile extends React.PureComponent {
   render() {
     return (
       <Animatable.View
+        {...this.panResponder.panHandlers}
         animation="bounceInDown"
         duration={1000}
         style={getTileStyle(this.props.tileSize, this.props.type)}
-        onTouchStart={() => this.handleStartPress(this.props.onClick)}
-        onTouchEnd={this.handleEndPress}
       >
         <Animated.View
           style={{
-            height: 3,
-            width: this.state.animation.interpolate({
-              inputRange: [0, 1],
-              outputRange: ['0%', '80%'],
-            }),
-            backgroundColor: 'red',
+            height: '100%',
+            width: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
-        />
+        >
+          <Text
+            style={{
+              fontSize: 10,
+            }}
+          >
+            {this.props.type.operation}
+          </Text>
+          <View
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Text>{this.props.type.number}</Text>
+          </View>
+        </Animated.View>
       </Animatable.View>
     );
   }
@@ -72,6 +125,7 @@ Tile.propTypes = {
   type: PropTypes.object.isRequired,
   tileSize: PropTypes.number.isRequired,
   onClick: PropTypes.func.isRequired,
+  onSwipe: PropTypes.func.isRequired,
 };
 
 export default Tile;

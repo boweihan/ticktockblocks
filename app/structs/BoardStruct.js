@@ -35,7 +35,11 @@ class BoardStruct {
           type: TileTypes.getRandomTileType(),
         };
       } else {
-        row[i] = { key: i, index, type: TileTypes.getRandomTileType() };
+        row[i] = {
+          key: i,
+          index,
+          type: TileTypes.getRandomTileType(),
+        };
         newRow = true;
       }
     }
@@ -73,6 +77,73 @@ class BoardStruct {
       default:
         break;
     }
+  }
+
+  // remove block, shift blocks down if needed and remove empty top row
+  removeBlockWithSwipe(colIndex, indice, type, direction) {
+    const rowIndex = this.indices.indexOf(indice);
+    const currentValue = this.board[rowIndex][colIndex];
+    let swiped = false;
+    switch (direction) {
+      case 'left':
+        swiped = this.updateSwipeDestinationCell(
+          colIndex - 1,
+          rowIndex,
+          currentValue,
+        );
+        break;
+      case 'right':
+        swiped = this.updateSwipeDestinationCell(
+          colIndex + 1,
+          rowIndex,
+          currentValue,
+        );
+        break;
+      case 'up':
+        swiped = this.updateSwipeDestinationCell(
+          colIndex,
+          rowIndex - 1,
+          currentValue,
+        );
+        break;
+      case 'down':
+        swiped = this.updateSwipeDestinationCell(
+          colIndex,
+          rowIndex + 1,
+          currentValue,
+        );
+        break;
+      default:
+        break;
+    }
+    if (swiped) {
+      this.removeBlock(colIndex, indice, type);
+    }
+  }
+
+  // swip operations
+  updateSwipeDestinationCell(colIndex, rowIndex, sourceCell) {
+    let swiped = false;
+    if (this.board[rowIndex] && this.board[rowIndex][colIndex]) {
+      const destCell = this.board[rowIndex][colIndex];
+      switch (destCell.type.operation) {
+        case '+':
+          destCell.type.number = sourceCell.type.number + destCell.type.number;
+          swiped = true;
+          break;
+        case '-':
+          destCell.type.number = sourceCell.type.number - destCell.type.number;
+          swiped = true;
+          break;
+        case 'x':
+          destCell.type.number *= sourceCell.type.number;
+          swiped = true;
+          break;
+        default:
+          break;
+      }
+    }
+    return swiped;
   }
 
   // custom removal methods
